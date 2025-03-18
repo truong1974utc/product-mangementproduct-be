@@ -13,14 +13,24 @@ block main
                 th Trang Thai
                 th Hanh Dong
 
-        tbody 
-            tr 
-                th 1
-                th 
-                th Sp1
-                th 100
-                th
-                    a(href="#" class="badge badge-success") Hoat Dong 
-                th 
-                    button(class="btn btn-warning btn-sm") Sua 
-                    button(class="btn btn-danger btn-sm ml-l") Xoa       
+        tbody
+            each item, index in products
+                tr 
+                    td #{index + 1}
+                    td
+                        img(
+                            src=item.thumbnail 
+                            alt=item.title
+                            width="100px"
+                            height="auto"
+                        ) 
+                    td #{item.title}
+                    td #{item.price}$
+                    td
+                        if(item.status == "active")
+                            a(href="#" class="badge badge-success") Hoat Dong
+                        else 
+                            a(href="#" class="badge badge-danger") Dung Hoat Dong     
+                    td 
+                        button(class="btn btn-warning btn-sm") Sua 
+                        button(class="btn btn-danger btn-sm ml-l") Xoa       
