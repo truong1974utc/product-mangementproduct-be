@@ -1,0 +1,26 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1 Danh sach san pham 
+
+    table.table.table-hover.table-sm
+        thead
+            tr
+                th STT 
+                th Hinh Anh
+                th Tieu De
+                th Gia
+                th Trang Thai
+                th Hanh Dong
+
+        tbody 
+            tr 
+                th 1
+                th 
+                th Sp1
+                th 100
+                th
+                    a(href="#" class="badge badge-success") Hoat Dong 
+                th 
+                    button(class="btn btn-warning btn-sm") Sua 
+                    button(class="btn btn-danger btn-sm ml-l") Xoa       
