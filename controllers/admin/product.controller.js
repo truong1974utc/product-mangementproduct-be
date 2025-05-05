@@ -74,10 +74,10 @@ module.exports.changeMulti = async (req, res) => {
         case "inactive":
             await Product.updateMany({ _id: {$in: ids}}, {status: "inactive"})
             req.flash("success", `Cap nhat trang thai thanh cong ${ids.length} san pham !`)
-
             break;
         case "delete-all":
             await Product.updateMany({_id: {$in: ids}}, {deleted: true, deletedAt: new Date()})
+            req.flash("success", `Da xoa thanh cong ${ids.length} san pham !`)
             break;
         case "change-position":
             for(const item of ids){
@@ -99,6 +99,7 @@ module.exports.deleteItem = async (req, res) => {
 
     // await Product.deleteOne({_id: id})
     await Product.updateOne({_id: id}, {deleted: true, deletedAt: new Date()})
+    req.flash("success", `Da xoa thanh cong san pham !`)
 
     res.redirect("back")
 }
