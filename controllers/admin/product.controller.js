@@ -84,6 +84,7 @@ module.exports.changeMulti = async (req, res) => {
                 let[id, position] = item.split("-");
                 position = parseInt(position)
                 await Product.updateOne({_id: id}, {position: position})
+                req.flash("success", `Da doi vi tri thanh cong ${ids.length} san pham !`)
             }
             break;       
         default:
