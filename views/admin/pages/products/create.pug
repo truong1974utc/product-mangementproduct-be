@@ -1,0 +1,102 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1(class="mb-4") Them Moi San Pham 
+
+    form(
+        action=`${prefixAdmin}/products/create`
+        id="form-create-products"
+        method="POST"
+    )
+        div(class="form-group")
+            label(for="title") Tieu De 
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+            )
+        div(class="form-group")
+            label(for="desc") Mo Ta 
+            textarea(
+                class="form-control"
+                id="desc"
+                name="description"
+                rows="5"
+            )
+        div(class="form-group")
+            label(for="price") Gia
+            input(
+                type="number"
+                class="form-control"
+                id="price"
+                name="price"
+                value="0"
+                min="0"
+            )
+        div(class="form-group")
+            label(for="discount") % Giam Gia
+            input(
+                type="number"
+                class="form-control"
+                id="discount"
+                name="discountPercentage"
+                value="0"
+                min="0"
+            )
+        div(class="form-group")
+            label(for="stock") So Luong
+            input(
+                type="number"
+                class="form-control"
+                id="stock"
+                name="stock"
+                value="0"
+                min="0"
+            )
+        div(class="form-group")
+            label(for="thumbnail") Anh
+            input(
+                type="text"
+                class="form-control"
+                id="thumbnail"
+                name="thumbnail"
+            )
+        div(class="form-group")
+            label(for="position") Vi Tri
+            input(
+                type="number"
+                class="form-control"
+                id="position"
+                name="position"
+                placeholder="Tu dong tang"
+                min="1"
+            )
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked
+            )
+            label(for="statusActive" class="form-check-label") Hoat Dong
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusInActive"
+                name="status"
+                value="inactive"
+                checked
+            )
+            label(for="statusInActive" class="form-check-label") Dung Hoat Dong 
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Tao moi    
+
+    script(src="/admin/js/product.js") 
