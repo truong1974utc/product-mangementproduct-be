@@ -94,7 +94,10 @@ block main
                                             class="badge badge-danger"
                                         ) Dung Hoat Dong     
                                 td 
-                                    button(class="btn btn-warning btn-sm") Sua 
+                                    a(
+                                        href=`${prefixAdmin}/products/edit/${item.id}`
+                                        class="btn btn-warning btn-sm"
+                                    ) Sua 
                                     button(
                                         class="btn btn-danger btn-sm ml-l"
                                         data-id=item.id 
