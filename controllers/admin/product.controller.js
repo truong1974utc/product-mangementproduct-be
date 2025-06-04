@@ -189,7 +189,7 @@ module.exports.detail = async (req, res) => {
         const product = await Product.findOne(find)
     
         res.render("admin/pages/products/detail", {
-            pageTitle: "Sua San Pham",
+            pageTitle: "Chi Tiêt San Pham",
             product: product
         })
     } catch (error) {

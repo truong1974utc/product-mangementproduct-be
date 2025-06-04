@@ -5,8 +5,7 @@ block main
   .container.my-3
     .row
       .col-12 
-        +box-head("Danh sach san pham") 
-
+        +box-head("Danh sach san pham")    
     .row
       each item in products 
         .col-4.mb-3
@@ -17,7 +16,8 @@ block main
                 alt=item.title
               )
             .inner-content
-              h3.inner-title #{item.title} 
+              h3.inner-title
+                a(href=`/products/${item.slug}`) #{item.title}
               .inner-price-new #{item.priceNew}$
               .inner-price-old #{item.price}$
               .inner-price-discount -#{item.discountPercentage}%        
