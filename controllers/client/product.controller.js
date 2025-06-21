@@ -32,7 +32,7 @@ module.exports.detail = async (req, res) => {
         const product = await Product.findOne(find)
     
         res.render("client/pages/products/detail", {
-            pageTitle: "Chi Tiêt San Pham",
+            pageTitle: product.title,
             product: product
         })
     } catch (error) {
