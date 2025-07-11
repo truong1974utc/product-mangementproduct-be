@@ -162,3 +162,45 @@ if(uploadImage) {
     })
 }
 // End Upload Image
+
+// sort
+const sort = document.querySelector("[sort]");
+if(sort) {
+    const sortSelect = sort.querySelector("[sort-select]")
+    const sortClear = sort.querySelector("[sort-clear]")
+    let url = new URL(window.location.href);
+
+    // sap xep
+    sortSelect.addEventListener("change", (e) => {
+        const value = e.target.value;
+        const [sortKey, sortValue] = value.split("-");
+
+        console.log(sortKey)
+
+        url.searchParams.set("sortKey", sortKey)
+        url.searchParams.set("sortValue", sortValue)
+
+        window.location.href = url.href
+    })
+
+    // xoa sap xep
+    sortClear.addEventListener("click", () => {
+        url.searchParams.delete("sortKey")
+        url.searchParams.delete("sortValue")
+
+        window.location.href = url.href
+    })
+
+    // them selected cho option
+    const sortKey = url.searchParams.get("sortKey")
+    const sortValue = url.searchParams.get("sortValue")
+
+    if(sortKey && sortValue) {
+        const stringSort = `${sortKey}-${sortValue}`;
+        console.log(stringSort)
+        const optionSelected = sortSelect.querySelector(`option[value='${stringSort}']`);
+        optionSelected.selected = true;
+    }
+
+}
+// end sort
