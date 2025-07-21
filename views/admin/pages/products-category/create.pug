@@ -1,25 +1,32 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
-block main 
+block main  
+    h1(class="mb-4") Thêm mới danh mục sản phẩm 
+
     +alert-error(5000)
 
-    h1(class="mb-4") Thêm mới sản phẩm 
-
     form(
-        action=`${prefixAdmin}/products/create`
-        id="form-create-products"
+        action=`${prefixAdmin}/products-category/create`
         method="POST"
         enctype="multipart/form-data"
     )
         div(class="form-group")
-            label(for="title") Tiêu đề 
+            label(for="title") Tiêu đề
             input(
                 type="text"
                 class="form-control"
                 id="title"
                 name="title"
                 required
+            ) 
+        div(class="form-group")
+            label(for="parent_id") Danh mục cha
+            input(
+                type="text"
+                class="form-control"
+                id="parent_id"
+                name="parent_id"
             )
         div(class="form-group")
             label(for="desc") Mô tả 
@@ -29,41 +36,11 @@ block main
                 name="description"
                 rows="5"
             )
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="stock") Số lượng
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value="0"
-                min="0"
-            )
         div(
             class="form-group"
             upload-image
         )
-            label(for="thumbnail") Ảnh
+            label(for="thumbnail") Ảnh 
             input(
                 type="file"
                 class="form-control-file"
@@ -74,8 +51,8 @@ block main
             )
             img(
                 src=""
-                upload-image-preview
                 class="image-preview"
+                upload-image-preview
             )
         div(class="form-group")
             label(for="position") Vị trí
@@ -84,9 +61,9 @@ block main
                 class="form-control"
                 id="position"
                 name="position"
-                placeholder="Tu dong tang"
+                placeholder="Tự động tăng"
                 min="1"
-            )
+            ) 
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
@@ -111,6 +88,4 @@ block main
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Tạo mới    
-
-    script(src="/admin/js/product.js") 
+            ) Tạo mới
