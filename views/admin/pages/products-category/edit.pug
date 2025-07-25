@@ -8,65 +8,44 @@ block main
     h1(class="mb-4") Chinh Sua San Pham
 
     form(
-        action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
+        action=`${prefixAdmin}/products-category/edit/${record.id}?_method=PATCH`
         id="form-edit-products"
         method="POST"
         enctype="multipart/form-data"
     )
         div(class="form-group")
-            label(for="title") Tieu De 
+            label(for="title") Tiêu đề 
             input(
                 type="text"
                 class="form-control"
                 id="title"
                 name="title"
                 required
-                value=product.title
+                value=record.title
             )
         div(class="form-group")
-            label(for="desc") Mo Ta 
+            label(for="parent_id") Danh mục cha
+            input(
+                type="text"
+                class="form-control"
+                id="parent_id"
+                name="parent_id"
+                value=record.parent_id
+            )
+        div(class="form-group")
+            label(for="desc") Mô tả 
             textarea(
                 class="form-control textarea-mce"
                 id="desc"
                 name="description"
                 rows="5"
-                value=product.description
-            ) #{product.description}
-        div(class="form-group")
-            label(for="price") Gia
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value=product.price
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Giam Gia
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value=product.discountPercentage
-                min="0"
-            )
-        div(class="form-group")
-            label(for="stock") So Luong
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value=product.stock
-                min="0"
-            )
+                value=record.description
+            ) #{record.description}
         div(
             class="form-group"
             upload-image
         )
-            label(for="thumbnail") Anh
+            label(for="thumbnail") Ảnh
             input(
                 type="file"
                 class="form-control-file"
@@ -76,7 +55,7 @@ block main
                 upload-image-input
             )
             img(
-                src=product.thumbnail
+                src=record.thumbnail
                 upload-image-preview
                 class="image-preview"
             )
@@ -89,7 +68,7 @@ block main
                 name="position"
                 placeholder="Tu dong tang"
                 min="1"
-                value=product.position
+                value=record.position
             )
         div(class="form-group form-check form-check-inline")
             input(
@@ -98,9 +77,9 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked=(product.status == "active" ? true : false)
+                checked=(record.status == "active" ? true : false)
             )
-            label(for="statusActive" class="form-check-label") Hoat Dong
+            label(for="statusActive" class="form-check-label") Hoạt động
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
@@ -108,13 +87,13 @@ block main
                 id="statusInActive"
                 name="status"
                 value="inactive"
-                checked=(product.status == "inactive" ? true : false)
+                checked=(record.status == "inactive" ? true : false)
             )
-            label(for="statusInActive" class="form-check-label") Dung Hoat Dong 
+            label(for="statusInActive" class="form-check-label") Dừng hoạt động 
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Cap Nhat    
+            ) Cập nhật    
 
     script(src="/admin/js/product.js") 
