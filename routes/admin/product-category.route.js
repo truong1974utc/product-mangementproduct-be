@@ -23,7 +23,7 @@ route.get("/create", controller.create)
 route.post("/create",
     upload.single("thumbnail"),
     uploadCloud.upload,
-    validate.createPost,
+    // validate.createPost,
     controller.createPost
 )
 

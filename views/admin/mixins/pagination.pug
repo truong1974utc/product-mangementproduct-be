@@ -6,7 +6,7 @@ mixin pagination(pagination)
                     button(
                         class="page-link"
                         button-pagination=pagination.currentPage - 1
-                    ) Trang truoc
+                    ) Trang trước
             - for (var i = 1; i <= pagination.totalPage; i++) 
                 li(class=`page-item ${pagination.currentPage == i ? "active":""}`)
                     button(
@@ -18,4 +18,4 @@ mixin pagination(pagination)
                     button(
                         class="page-link"
                         button-pagination=pagination.currentPage + 1
-                    ) Ke Tiep     
+                    ) Kế tiếp     

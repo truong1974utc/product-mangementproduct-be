@@ -5,6 +5,8 @@ const paginationHelper = require("../../helpers/pagination")
 
 const systemConfig = require("../../config/system")
 
+const createTreeHelper = require("../../helpers/createTree")
+
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
 
@@ -46,13 +48,12 @@ module.exports.index = async (req, res) => {
     // End Sort
 
     const records = await ProductCategory.find(find)
-        .sort(sort)
-        .limit(objectPagination.limitItems)
-        .skip(objectPagination.skip)
+    
+    const newRecords = createTreeHelper.tree(records);
 
     res.render("admin/pages/products-category/index", {
         pageTitle: "Danh mục sản phẩm",
-        records: records,
+        records: newRecords,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
         pagination: objectPagination
@@ -119,8 +120,20 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products-category/create
 module.exports.create = async (req, res) => {
+
+    let find = {
+        deleted: false
+    }
+
+    const records = await ProductCategory.find(find)
+
+    const newRecords = createTreeHelper.tree(records);
+
+    console.log(newRecords)
+
     res.render("admin/pages/products-category/create", {
         pageTitle: "Tạo danh mục sản phẩm",
+        records: newRecords
     })
 }
 
