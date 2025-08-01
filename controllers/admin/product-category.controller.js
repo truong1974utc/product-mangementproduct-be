@@ -29,8 +29,8 @@ module.exports.index = async (req, res) => {
     const countProducts = await ProductCategory.countDocuments(find)
     let objectPagination = paginationHelper(
         {
-        currentPage: 1,
-        limitItems: 4  
+            currentPage: 1,
+            limitItems: 4  
         },
         req.query,
         countProducts
