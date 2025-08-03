@@ -15,12 +15,12 @@ module.exports.index = async (req, res) => {
         deleted: false
     }
 
-    if(req.query.status) {
+    if (req.query.status) {
         find.status = req.query.status
     }
 
     const objectSearch = searchHelper(req.query)
-    if(objectSearch.regex) {
+    if (objectSearch.regex) {
         find.title = objectSearch.regex
     }
 
@@ -29,21 +29,21 @@ module.exports.index = async (req, res) => {
 
     let objectPagination = paginationHelper(
         {
-        currentPage: 1,
-        limitItems: 4
+            currentPage: 1,
+            limitItems: 4
         },
         req.query,
         countProducts
-    ) 
-    
+    )
+
     // End Pagination
 
     // Sort
     let sort = {};
 
-    if(req.query.sortKey && req.query.sortValue) {
+    if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey] = req.query.sortValue
-    }else {
+    } else {
         sort.position = "desc"
     }
     // End Sort
@@ -52,7 +52,7 @@ module.exports.index = async (req, res) => {
         .sort(sort)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip)
-    
+
     res.render("admin/pages/products/index", {
         pageTitle: "Trang san pham",
         products: products,
@@ -66,8 +66,8 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status
     const id = req.params.id;
-    
-    await Product.updateOne({_id: id}, { status: status})
+
+    await Product.updateOne({ _id: id }, { status: status })
 
     req.flash("success", "Cap nhat trang thai thanh cong");
 
@@ -81,25 +81,25 @@ module.exports.changeMulti = async (req, res) => {
 
     switch (type) {
         case "active":
-            await Product.updateMany({ _id: {$in: ids}}, {status: "active"})
+            await Product.updateMany({ _id: { $in: ids } }, { status: "active" })
             req.flash("success", `Cap nhat trang thai thanh cong ${ids.length} san pham !`)
             break;
         case "inactive":
-            await Product.updateMany({ _id: {$in: ids}}, {status: "inactive"})
+            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" })
             req.flash("success", `Cap nhat trang thai thanh cong ${ids.length} san pham !`)
             break;
         case "delete-all":
-            await Product.updateMany({_id: {$in: ids}}, {deleted: true, deletedAt: new Date()})
+            await Product.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() })
             req.flash("success", `Da xoa thanh cong ${ids.length} san pham !`)
             break;
         case "change-position":
-            for(const item of ids){
-                let[id, position] = item.split("-");
+            for (const item of ids) {
+                let [id, position] = item.split("-");
                 position = parseInt(position)
-                await Product.updateOne({_id: id}, {position: position})
+                await Product.updateOne({ _id: id }, { position: position })
                 req.flash("success", `Da doi vi tri thanh cong ${ids.length} san pham !`)
             }
-            break;       
+            break;
         default:
             break;
     }
@@ -112,7 +112,7 @@ module.exports.deleteItem = async (req, res) => {
     const id = req.params.id
 
     // await Product.deleteOne({_id: id})
-    await Product.updateOne({_id: id}, {deleted: true, deletedAt: new Date()})
+    await Product.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() })
     req.flash("success", `Da xoa thanh cong san pham !`)
 
     res.redirect("back")
@@ -142,14 +142,14 @@ module.exports.createPost = async (req, res) => {
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.stock = parseInt(req.body.stock)
 
-    if(req.body.position == "") {
+    if (req.body.position == "") {
         const countProducts = await Product.countDocuments()
         req.body.position = countProducts + 1
     } else {
         req.body.position = parseInt(req.body.position)
     }
 
-    
+
 
     const product = new Product(req.body)
     await product.save()
@@ -164,12 +164,19 @@ module.exports.edit = async (req, res) => {
             deleted: false,
             _id: req.params.id
         }
-    
+
         const product = await Product.findOne(find)
-    
+
+        const category = await ProductCategory.find({
+            deleted: false
+        })
+
+        const newCategory = createTreeHelper.tree(category);
+
         res.render("admin/pages/products/edit", {
             pageTitle: "Sua San Pham",
-            product: product
+            product: product,
+            category: newCategory
         })
     } catch (error) {
         res.redirect(`${systemConfig.prefixAdmin}/products`)
@@ -186,7 +193,7 @@ module.exports.editPatch = async (req, res) => {
     req.body.position = parseInt(req.body.position)
 
     try {
-        await Product.updateOne({ _id: id}, req.body)
+        await Product.updateOne({ _id: id }, req.body)
         req.flash("success", `Cap nhat thanh cong !`)
     } catch (error) {
         req.flash("error", `Cap nhat that bai !`)
@@ -201,9 +208,9 @@ module.exports.detail = async (req, res) => {
             deleted: false,
             _id: req.params.id
         }
-    
+
         const product = await Product.findOne(find)
-    
+
         res.render("admin/pages/products/detail", {
             pageTitle: "Chi Tiêt San Pham",
             product: product

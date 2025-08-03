@@ -1,11 +1,12 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
 
 block main
     +alert-success(5000)
     +alert-error(5000)
 
-    h1(class="mb-4") Chinh Sua San Pham
+    h1(class="mb-4") Chỉnh sửa sản phẩm
 
     form(
         action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
@@ -14,7 +15,7 @@ block main
         enctype="multipart/form-data"
     )
         div(class="form-group")
-            label(for="title") Tieu De 
+            label(for="title") Tiêu đề 
             input(
                 type="text"
                 class="form-control"
@@ -24,7 +25,17 @@ block main
                 value=product.title
             )
         div(class="form-group")
-            label(for="desc") Mo Ta 
+            label(for="product_category_id") Danh mục 
+            select(
+                name="product_category_id"
+                id="product_category_id"
+                class="form-control"
+            )
+                option(value="") -- Chọn danh mục --
+                if(category)
+                    +select-tree(category, 1, product.product_category_id)
+        div(class="form-group")
+            label(for="desc") Mô tả 
             textarea(
                 class="form-control textarea-mce"
                 id="desc"
@@ -33,7 +44,7 @@ block main
                 value=product.description
             ) #{product.description}
         div(class="form-group")
-            label(for="price") Gia
+            label(for="price") Giá
             input(
                 type="number"
                 class="form-control"
@@ -43,7 +54,7 @@ block main
                 min="0"
             )
         div(class="form-group")
-            label(for="discount") % Giam Gia
+            label(for="discount") % Giảm giá
             input(
                 type="number"
                 class="form-control"
@@ -53,7 +64,7 @@ block main
                 min="0"
             )
         div(class="form-group")
-            label(for="stock") So Luong
+            label(for="stock") Số lượng
             input(
                 type="number"
                 class="form-control"
@@ -66,7 +77,7 @@ block main
             class="form-group"
             upload-image
         )
-            label(for="thumbnail") Anh
+            label(for="thumbnail") Ảnh
             input(
                 type="file"
                 class="form-control-file"
@@ -81,7 +92,7 @@ block main
                 class="image-preview"
             )
         div(class="form-group")
-            label(for="position") Vi Tri
+            label(for="position") Vị trí
             input(
                 type="number"
                 class="form-control"
@@ -100,7 +111,7 @@ block main
                 value="active"
                 checked=(product.status == "active" ? true : false)
             )
-            label(for="statusActive" class="form-check-label") Hoat Dong
+            label(for="statusActive" class="form-check-label") Hoạt động
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
@@ -110,11 +121,11 @@ block main
                 value="inactive"
                 checked=(product.status == "inactive" ? true : false)
             )
-            label(for="statusInActive" class="form-check-label") Dung Hoat Dong 
+            label(for="statusInActive" class="form-check-label") Dừng hoạt động 
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Cap Nhat    
+            ) Cập nhật    
 
     script(src="/admin/js/product.js") 
