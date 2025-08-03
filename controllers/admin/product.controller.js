@@ -174,7 +174,7 @@ module.exports.edit = async (req, res) => {
         const newCategory = createTreeHelper.tree(category);
 
         res.render("admin/pages/products/edit", {
-            pageTitle: "Sua San Pham",
+            pageTitle: "Sửa sản phẩm",
             product: product,
             category: newCategory
         })
