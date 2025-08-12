@@ -99,3 +99,32 @@ module.exports.permissionsPatch = async (req, res) => {
     
     res.redirect("back")
 }
+
+// [GET] /admin/roles/detail/:id
+module.exports.detail = async (req, res) => {
+
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+    
+        const records = await Role.findOne(find)
+    
+        res.render("admin/pages/roles/detail", {
+            pageTitle: "Chi tiết nhóm quyền",
+            records: records
+        })
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/roles`)
+    }
+}
+
+// [DELETE] /admin/roles/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id
+
+    await Role.updateOne({_id: id}, {deleted: true, deletedAt: new Date()})
+
+    res.redirect("back")
+}

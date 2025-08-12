@@ -16,4 +16,8 @@ route.get("/permissions", controller.permissions);
 
 route.patch("/permissions", controller.permissionsPatch);
 
+route.get("/detail/:id", controller.detail)
+
+route.delete("/delete/:id", controller.deleteItem)
+
 module.exports = route
