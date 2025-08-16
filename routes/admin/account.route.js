@@ -26,13 +26,14 @@ route.get("/detail/:id", controller.detail)
 
 route.delete("/delete/:id", controller.deleteItem)
 
-// route.get("/edit/:id", controller.edit)
+route.get("/edit/:id", controller.edit)
 
-// route.patch(
-//     "/edit/:id",
-//     upload.single("avatar"),
-//     validate.createPost,  
-//     controller.editPatch
-// )
+route.patch(
+    "/edit/:id",
+    upload.single("avatar"),
+    uploadCloud.upload,
+    validate.editPatch,  
+    controller.editPatch
+)
 
 module.exports = route

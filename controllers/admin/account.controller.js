@@ -46,7 +46,7 @@ module.exports.createPost = async (req, res) => {
     })
 
     if (emailExist) {
-        req.flash("error", "Email đã tồn tại !")
+        req.flash("error", `Email ${req.body.email} đã tồn tại !`)
         res.redirect("back")
     } else {
         req.body.password = md5(req.body.password);
@@ -85,55 +85,63 @@ module.exports.detail = async (req, res) => {
     }
 }
 
-// // [GET] /admin/accounts/edit/:id
-// module.exports.edit = async (req, res) => {
-//     try {
-//         let find = {
-//             deleted: false,
-//             _id: req.params.id
-//         }
+// [GET] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
 
-//         const records = await Account.findOne(find).select("-password -token");
+    let find = {
+        deleted: false,
+        _id: req.params.id
+    }
 
-//         const role = await Role.findOne({
-//             _id: records.role_id,
-//             deleted: false
-//         })
-//         records.role = role
+    try {
+        const data = await Account.findOne(find);
 
-//         const roles = await Role.find({
-//             deleted: false
-//         })
+        const roles = await Role.find({
+            deleted: false
+        })
 
-//         res.render("admin/pages/accounts/edit", {
-//             pageTitle: "Sửa tài khoản",
-//             records: records,
-//             roles: roles
-//         })
+        res.render("admin/pages/accounts/edit", {
+            pageTitle: "Sửa tài khoản",
+            data: data,
+            roles: roles
+        })
 
-//     } catch (error) {
-//         res.redirect(`${systemConfig.prefixAdmin}/accounts`)
-//     }
-// }
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+    }
+}
 
 // [PATCH] /admin/accounts/edit/:id
-// module.exports.editPatch = async (req, res) => {
-//     const id = req.params.id
+module.exports.editPatch = async (req, res) => {
+    const id = req.params.id
 
-//     try {
-//         await Account.updateOne({ _id: id }, req.body)
-//         req.flash("success", `Cập nhật thành công !`)
-//     } catch (error) {
-//         req.flash("error", `Cập nhật thất bại !`)
-//     }
-//     res.redirect("back")
-// }
+    const emailExist = await Account.findOne({
+        _id: { $ne: id},
+        email: req.body.email,
+        deleted: false
+    })
+
+    if (emailExist) {
+        req.flash("error", `Email ${req.body.email} đã tồn tại !`)
+    } else {
+        if (req.body.password) {
+            req.body.password = md5(req.body.password)
+        } else {
+            delete req.body.password
+        }
+
+        await Account.updateOne({ _id: id }, req.body)
+
+        req.flash("success", `Cập nhật thành công !`)
+    }
+
+    res.redirect("back")
+}
 
 // [DELETE] /admin/accounts/delete/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id
 
-    // await Product.deleteOne({_id: id})
     await Account.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() })
     req.flash("success", ` Đã xóa thành công sản phẩm !`)
 
