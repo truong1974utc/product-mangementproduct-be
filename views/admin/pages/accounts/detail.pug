@@ -1,0 +1,37 @@
+extends ../../layouts/default.pug
+
+block main 
+
+    if (records.avatar)
+        div(class="mb-4")
+            img(
+                src=records.avatar
+                style="width: 100px"
+            )
+
+    if (records.fullName)
+        h1(class="mb-4") Họ tên:  #{records.fullName}
+
+    if (records.role.title)
+        div(class="mb-4") Phân quyền: <b>#{records.role.title}</b>
+
+    if (records.email)
+        div(class="mb-4") Email: <b>#{records.email}</b>
+
+    if (records.phone)
+        div(class="mb-4") Phone: <b>#{records.phone}</b>
+
+    if (records.status)
+        div(class="mb-4")
+            span Trạng thái: 
+            if (records.status === "active")
+                span(class="badge badge-success") Hoạt động
+            else 
+                span(class="badge badge-danger") Dừng hoạt động
+
+    a(
+        href=`${prefixAdmin}/accounts/edit/${records.id}`
+        class="btn btn-warning btn-sm"
+    ) Chỉnh Sửa
+
+    script(src="/admin/js/product.js") 

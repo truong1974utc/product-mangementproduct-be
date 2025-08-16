@@ -22,6 +22,17 @@ route.post("/create",
     controller.createPost
 )
 
+route.get("/detail/:id", controller.detail)
 
+route.delete("/delete/:id", controller.deleteItem)
+
+// route.get("/edit/:id", controller.edit)
+
+// route.patch(
+//     "/edit/:id",
+//     upload.single("avatar"),
+//     validate.createPost,  
+//     controller.editPatch
+// )
 
 module.exports = route
