@@ -5,7 +5,7 @@
 }
 
 .header .inner-logo img {
-    max-height: 50px;
+    max-height: 100px;
     max-width: 100%;
 }
 
@@ -97,3 +97,48 @@
     border-radius: 8px;
 }
 /* end product-item */
+
+/* sub-menu */
+.sub-menu {
+    position: relative;
+    z-index: 999;
+}
+
+.sub-menu ul {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #eae9e9;
+    min-width: 180px;
+    display: none;
+}
+
+.sub-menu ul li {
+    padding: 10px;
+    border-bottom: 1px solid;
+    position: relative;
+}
+
+.sub-menu:hover > ul {
+    display: block;
+}
+
+.sub-menu ul li ul {
+    position: absolute;
+    right: 100%; /* hiện sang phải */
+    top: 0;
+    display: none;
+    background: #eae9e9;
+    min-width: 180px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sub-menu ul li:hover > ul {
+    display: block;
+}
+
