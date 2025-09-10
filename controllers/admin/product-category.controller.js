@@ -16,12 +16,12 @@ module.exports.index = async (req, res) => {
         deleted: false,
     };
 
-    if(req.query.status) {
+    if (req.query.status) {
         find.status = req.query.status
     }
 
     const objectSearch = searchHelper(req.query)
-    if(objectSearch.regex) {
+    if (objectSearch.regex) {
         find.title = objectSearch.regex
     }
 
@@ -30,7 +30,7 @@ module.exports.index = async (req, res) => {
     let objectPagination = paginationHelper(
         {
             currentPage: 1,
-            limitItems: 4  
+            limitItems: 4
         },
         req.query,
         countProducts
@@ -40,15 +40,15 @@ module.exports.index = async (req, res) => {
     // Sort
     let sort = {};
 
-    if(req.query.sortKey && req.query.sortValue) {
+    if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey] = req.query.sortValue
-    }else {
+    } else {
         sort.position = "desc"
     }
     // End Sort
 
     const records = await ProductCategory.find(find)
-    
+
     const newRecords = createTreeHelper.tree(records);
 
     res.render("admin/pages/products-category/index", {
@@ -64,8 +64,8 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status
     const id = req.params.id;
-    
-    await ProductCategory.updateOne({_id: id}, { status: status})
+
+    await ProductCategory.updateOne({ _id: id }, { status: status })
 
     req.flash("success", "Cập nhật trạng thái thành công");
 
@@ -80,25 +80,25 @@ module.exports.changeMulti = async (req, res) => {
 
     switch (type) {
         case "active":
-            await ProductCategory.updateMany({ _id: {$in: ids}}, {status: "active"})
+            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "active" })
             req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm !`)
             break;
         case "inactive":
-            await ProductCategory.updateMany({ _id: {$in: ids}}, {status: "inactive"})
+            await ProductCategory.updateMany({ _id: { $in: ids } }, { status: "inactive" })
             req.flash("success", `Cập nhật trạng thái thành công ${ids.length} sản phẩm !`)
             break;
         case "delete-all":
-            await ProductCategory.updateMany({_id: {$in: ids}}, {deleted: true, deletedAt: new Date()})
+            await ProductCategory.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() })
             req.flash("success", `Đã xóa thành công ${ids.length} sản phẩm !`)
             break;
         case "change-position":
-            for(const item of ids){
-                let[id, position] = item.split("-");
+            for (const item of ids) {
+                let [id, position] = item.split("-");
                 position = parseInt(position)
-                await ProductCategory.updateOne({_id: id}, {position: position})
+                await ProductCategory.updateOne({ _id: id }, { position: position })
                 req.flash("success", `Đã đổi vị trí thành công ${ids.length} sản phẩm !`)
             }
-            break;    
+            break;
         default:
             break;
     }
@@ -111,7 +111,7 @@ module.exports.deleteItem = async (req, res) => {
     const id = req.params.id
 
     // await ProductCategory.deleteOne({_id: id})
-    await ProductCategory.updateOne({_id: id}, {deleted: true, deletedAt: new Date()})
+    await ProductCategory.updateOne({ _id: id }, { deleted: true, deletedAt: new Date() })
 
     req.flash("success", `Đã xóa thành công sản phẩm !`)
 
@@ -140,26 +140,23 @@ module.exports.create = async (req, res) => {
 // [POST] /admin/products-category/create
 module.exports.createPost = async (req, res) => {
 
-    // const permissions = res.locals.role.permissions;
+    const permissions = res.locals.role.permissions;
 
-    // if(permissions.includes("products-category_create")) {
-    //     console.log("Có quyền")
-    // } else {
-    //     return;
-    // }
-
-    console.log(req.body)
-    if(req.body.position == "") {
+    if (permissions.includes("products-category_create")) {
+        if (req.body.position == "") {
             const count = await ProductCategory.countDocuments()
             req.body.position = count + 1
         } else {
             req.body.position = parseInt(req.body.position)
         }
 
-    const record = new ProductCategory(req.body)
-    await record.save()
+        const record = new ProductCategory(req.body)
+        await record.save()
 
-    res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+    } else {
+        return;
+    }
 }
 
 // [GET] /admin/products/edit/:id
@@ -169,7 +166,7 @@ module.exports.edit = async (req, res) => {
             deleted: false,
             _id: req.params.id
         }
-    
+
         const data = await ProductCategory.findOne(find)
 
         const records = await ProductCategory.find({
@@ -177,7 +174,7 @@ module.exports.edit = async (req, res) => {
         })
 
         const newRecords = createTreeHelper.tree(records);
-    
+
         res.render("admin/pages/products-category/edit", {
             pageTitle: "Sửa danh mục sản phẩm",
             data: data,
@@ -195,7 +192,7 @@ module.exports.editPatch = async (req, res) => {
     req.body.position = parseInt(req.body.position)
 
     try {
-        await ProductCategory.updateOne({ _id: id}, req.body)
+        await ProductCategory.updateOne({ _id: id }, req.body)
         req.flash("success", `Cập nhật thành công !`)
     } catch (error) {
         req.flash("error", `Cập nhật thất bại !`)
@@ -210,9 +207,9 @@ module.exports.detail = async (req, res) => {
             deleted: false,
             _id: req.params.id
         }
-    
+
         const record = await ProductCategory.findOne(find)
-    
+
         res.render("admin/pages/products-category/detail", {
             pageTitle: "Sửa danh mục sản phẩm",
             record: record
