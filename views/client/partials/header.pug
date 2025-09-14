@@ -32,6 +32,11 @@ header.header
                         li 
                             a(href="/") Trang chủ 
                         li(class="sub-menu")
+                            -const pathArticle = "/articles"
+                            a(href="/articles") Bài viết
+                            if(layoutCategoryProducts)
+                                +sub-menu(layoutCategoryProducts, pathArticle)
+                        li(class="sub-menu")
                             -const pathProduct = "/products"
                             a(href="/products") Sản phẩm
                             if(layoutCategoryProducts)

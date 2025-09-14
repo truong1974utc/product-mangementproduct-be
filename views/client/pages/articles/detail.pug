@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(2000)
+    
+    .article-detail
+        .container.my-5 
+            button(
+                class="btn btn-secondary"
+                button-go-back
+            ) Trở lại 
+
+            .row    
+                .col-6
+                    .inner-thumb
+                        if (article.thumbnail)
+                            img(
+                                src=article.thumbnail
+                                alt=article.title
+                            )
+                .col-6 
+                    if (article.title)
+                        h1(class="inner-title")  #{article.title}
+
+                    if (article.category)
+                        div(class="inner-category")
+                            span Danh mục: 
+                            a(href=`/articles/${article.category.slug}`) #{article.category.title} 
+
+        hr
+
+        .container.my-5     
+            .row    
+                .col-12     
+                    +box-head("Mô tả bài viết")
+                    .inner-desc !{article.description}
