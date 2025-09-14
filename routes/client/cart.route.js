@@ -6,4 +6,6 @@ route.get("/", controller.index)
 
 route.post("/add/:productId", controller.addPost)
 
+route.get("/delete/:productId", controller.delete)
+
 module.exports = route
