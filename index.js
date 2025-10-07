@@ -7,6 +7,10 @@ const session = require("express-session")
 const flash = require("express-flash")
 const multer = require('multer')
 const moment = require("moment")
+const http = require('http')
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+
 require('dotenv').config()
 
 const database = require("./config/database")
@@ -29,6 +33,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.set('views', `${__dirname}/views`)
 app.set('view engine', 'pug')
 
+// SocketIo
+const server = createServer(app);
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+})
 // Flash
 app.use(cookieParser('NGUYENQUANGTRUONG'));
 app.use(session({ cookie: { maxAge: 60000 } }));
@@ -49,6 +60,6 @@ app.use(express.static(`${__dirname}/public`))
 route(app)
 routeAdmin(app)
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
