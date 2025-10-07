@@ -1,0 +1,43 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head("chat")
+        
+        .row 
+            .col-12 
+                .chat 
+                    .inner-body
+                        .inner-incoming
+                            .inner-name Em yeu 
+                            .inner-content
+                                | A oi sang nha em nha, nha em ko co ai o nha 
+                        .inner-outgoing 
+                            .inner-content
+                                | The a, Ok e iu 
+                        .inner-incoming 
+                            .inner-name Em yeu 
+                            .inner-content
+                                | Nhanh nha nhanh nha
+                        .inner-outgoing
+                            .inner-content
+                                | Ck den roi ma thay ai o nha dau em
+                        .inner-incoming 
+                            .inner-name Em yeu 
+                            .inner-content
+                                | thi em bao nha em ko co ai o nha ma
+                    .inner-foot
+                        form(
+                            class="inner-form"
+                            action=""
+                        )
+                            input(
+                                type="text"
+                                placeholder="Nhap noi dung"
+                                name="content"
+                            )
+                            button 
+                                i.fa-solid.fa-paper-plane
