@@ -36,6 +36,7 @@ app.set('view engine', 'pug')
 // SocketIo
 const server = createServer(app);
 const io = new Server(server);
+global._io = io
 
 io.on('connection', (socket) => {
     console.log('a user connected');
