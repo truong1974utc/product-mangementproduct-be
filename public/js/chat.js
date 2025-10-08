@@ -1,4 +1,3 @@
-// const { Socket } = require("socket.io");
 
 // CLIENT SEND MES
 const formSendData = document.querySelector(".chat .inner-form")
@@ -14,3 +13,28 @@ if(formSendData) {
     })
 }
 //end CLIENT SEND MES
+
+// server return mes
+socket.on("SERVER_RETURN_MES", (data) => {
+    const myId = document.querySelector("[my-id]").getAttribute("my-id")
+    const body = document.querySelector(".chat .inner-body")
+
+    const div = document.createElement("div")
+
+    let htmlFullName = ""
+
+    if(myId == data.userId) {
+        div.classList.add("inner-outgoing")
+    }else {
+        div.classList.add("inner-incoming");
+        htmlFullName = `<div class="inner-name">${data.htmlFullName}</div>`
+    }
+
+    div.innerHTML = `
+        ${htmlFullName}
+        <div class="inner-content>${data.content}</div>
+    `;
+
+    body.appendChild(div)
+})
+// end server return mes

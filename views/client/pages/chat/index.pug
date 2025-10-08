@@ -9,7 +9,7 @@ block main
         
         .row 
             .col-12 
-                .chat 
+                .chat(my-id=user.id)
                     .inner-body
                         each chat in chats      
                             div(class=(chat.infoUser.id == user.id ? "inner-outgoing" : "inner-incoming"))
@@ -17,24 +17,7 @@ block main
                                     .inner-name  #{chat.infoUser.fullName}
                                 .inner-content 
                                     | #{chat.content}
-                        //- .inner-incoming
-                        //-     .inner-name Em yeu 
-                        //-     .inner-content
-                        //-         | A oi sang nha em nha, nha em ko co ai o nha 
-                        //- .inner-outgoing 
-                        //-     .inner-content
-                        //-         | The a, Ok e iu 
-                        //- .inner-incoming 
-                        //-     .inner-name Em yeu 
-                        //-     .inner-content
-                        //-         | Nhanh nha nhanh nha
-                        //- .inner-outgoing
-                        //-     .inner-content
-                        //-         | Ck den roi ma thay ai o nha dau em
-                        //- .inner-incoming 
-                        //-     .inner-name Em yeu 
-                        //-     .inner-content
-                        //-         | thi em bao nha em ko co ai o nha ma
+                        
                     .inner-foot
                         form(
                             class="inner-form"
