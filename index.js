@@ -38,9 +38,6 @@ const server = createServer(app);
 const io = new Server(server);
 global._io = io
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-})
 // Flash
 app.use(cookieParser('NGUYENQUANGTRUONG'));
 app.use(session({ cookie: { maxAge: 60000 } }));
