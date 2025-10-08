@@ -27,14 +27,23 @@ socket.on("SERVER_RETURN_MES", (data) => {
         div.classList.add("inner-outgoing")
     }else {
         div.classList.add("inner-incoming");
-        htmlFullName = `<div class="inner-name">${data.htmlFullName}</div>`
+        htmlFullName = `<div class="inner-name">${data.fullName}</div>`
     }
 
     div.innerHTML = `
         ${htmlFullName}
-        <div class="inner-content>${data.content}</div>
+        <div class="inner-content">${data.content}</div>
     `;
 
     body.appendChild(div)
+
+    body.scrollTop = body.scrollHeight
 })
 // end server return mes
+
+// scroll chat to bottom
+const bodyChat = document.querySelector(".chat .inner-body")
+if(bodyChat) {
+    bodyChat.scrollTop = bodyChat.scrollHeight
+}
+//end scroll chat to bottom
